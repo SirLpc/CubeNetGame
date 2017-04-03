@@ -9,12 +9,14 @@ public class LobbyMgr : TNBehaviour
     [SerializeField] private string connectIp = "115.28.87.227";
     [SerializeField] private int connectPort = 5127;
     [SerializeField] private int roomPlayerCount = 2;
+	[SerializeField] private string gameScene = "game";
 
     private Button button_play;
     private Button button_connect;
     private Button button_disconnect;
 
 
+	private static bool IsConnected = false;
 
     private void Awake()
     {
@@ -50,6 +52,14 @@ public class LobbyMgr : TNBehaviour
             button_disconnect.interactable = false;
         }
     }
+
+	private void Start()
+	{
+		if (IsConnected)
+			return;
+
+		button_connect_onClick ();
+	}
 
     new void OnEnable()
     {
@@ -151,7 +161,7 @@ public class LobbyMgr : TNBehaviour
 
         TNManager.SetPlayerData("isQue", false);
 
-        TNManager.JoinChannel(channelid, "4. Chat", false, roomPlayerCount, null, true);
+		TNManager.JoinChannel(channelid, gameScene, false, roomPlayerCount, null, true);
     }
 
     #endregion
@@ -163,6 +173,7 @@ public class LobbyMgr : TNBehaviour
         if (success)
         {
             button_disconnect.interactable = true;
+			IsConnected = true;
 
             //everyone joins main catch-all lobby channel
             TNManager.JoinChannel(1000, "lobby", true, 500, null, true);
@@ -180,6 +191,8 @@ public class LobbyMgr : TNBehaviour
         Debug.Log(string.Format("network_onJoinChannel: channelID={0} success={1} message={2}", channelID, success, message));
 
         TNManager.SetPlayerData("isQue", false);
+
+		button_play_onClick ();
     }
 
     private void network_onPlayerJoin(int channelID, Player p)

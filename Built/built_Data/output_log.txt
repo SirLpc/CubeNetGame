@@ -1,0 +1,163 @@
+Initialize engine version: 5.3.3f1 (910d71450a97)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GT 750M (ID=0xfe4)
+    Vendor:   NVIDIA
+    VRAM:     3072 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.127 seconds
+Platform assembly: F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\System.dll (this message is harmless)
+desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
+<RI> Initializing input.
+XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.682313 ms
+Platform assembly: F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\System.Configuration.dll (this message is harmless)
+Platform assembly: F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\System.Xml.dll (this message is harmless)
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: ac4 -> priority: 1 
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 8.773679 ms
+network_onJoinChannel: channelID=1000 success=True message=
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+False
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+True
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 316.
+Total: 0.720690 ms (FindLiveObjects: 0.029898 ms CreateObjectMapping: 0.032129 ms MarkObjects: 0.647951 ms  DeleteObjects: 0.010263 ms)
+
+network_onPlayerJoin: channelID=1000 p.name=Editor
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+True
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+True
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Initialize engine version: 5.3.3f1 (910d71450a97)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GT 750M (ID=0xfe4)
+    Vendor:   NVIDIA
+    VRAM:     3072 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.075 seconds
+Platform assembly: F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\System.dll (this message is harmless)
+desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
+<RI> Initializing input.
+XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.912576 ms
+Platform assembly: F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\System.Configuration.dll (this message is harmless)
+Platform assembly: F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\System.Xml.dll (this message is harmless)
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: dc -> priority: 1 
+network_onPlayerJoin: channelID=1000 p.name=Guest
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 9.235992 ms
+network_onJoinChannel: channelID=1000 success=True message=
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+False
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 313.
+Total: 0.938013 ms (FindLiveObjects: 0.042839 ms CreateObjectMapping: 0.046409 ms MarkObjects: 0.834929 ms  DeleteObjects: 0.012941 ms)
+
+True
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+True
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+True
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.U131oa5dTi
+me: 0.480608 ms
+
+Unloading 3 unused Assets to reduce memory us
+Unloading 3 unused Aow: 348. Total: memory usage. Loaded Objjectsn 0.0 35559 
+ms CreateObjectMapping:d iv.0bj651ts:  MarkObjects: reateObjecms  DeletMapping:  0.0236517 ms)
+
+rkObjects: 0.861258 ms  DeleteObjects: 0.009817 ms)
+
+Platform assembly: F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\Mono.Security.dll (this message is harmless)
+Platform assembly: F:\_MyGames\Programs\CubeNetGame\Built\built_Data\Managed\Mono.Security.dll (this message is harmless)
+2
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+35Renderer (5)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+2
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+34Renderer (4)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+{{42473,249:29,248:62}
+ 
+(
+ 
+(Fname: C:/builename: C:/buildslave/unity/builddslave/unity/build/artcoactos/ruenerated/common/runtimetime/UnnityEngineDebugBinding.cpp Line: 37)
+
+s.gen.cpp Line: 37)
+
+3
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugB3nd
+n
+(s.gen.cpp L: Ce:b i37)
+
+ve/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+

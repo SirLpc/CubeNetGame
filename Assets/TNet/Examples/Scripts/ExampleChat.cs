@@ -134,6 +134,7 @@ public class ExampleChat : TNBehaviour
 
 	void Send ()
 	{
+
 		if (!string.IsNullOrEmpty(mInput))
 		{
 			mInput = mInput.Trim();
@@ -151,7 +152,7 @@ public class ExampleChat : TNBehaviour
 				// Shorter version:
 				//RuntimeCode.Execute(mInput.Substring(5));
 			}
-			else tno.Send("OnChat", Target.All, TNManager.playerID, mInput);
+			else tno.Send("OnChat", Target.All, TNManager.playerID, mInput + "Player count = " + TNManager.players.Count + "Channel id = " + tno.channelID);
 
 			mInput = "";
 		}
