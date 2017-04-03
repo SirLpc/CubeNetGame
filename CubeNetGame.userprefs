@@ -1,27 +1,27 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\MapMgr.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameCtr.cs">
     <Files>
+      <File FileName="Assets\GameCtr.cs" Line="45" Column="23" />
       <File FileName="Assets\_Scripts\LobbyMgr.cs" Line="1" Column="1" />
       <File FileName="Assets\TNet\Examples\Scripts\ExampleChat.cs" Line="1" Column="1" />
-      <File FileName="Assets\UICtr.cs" Line="40" Column="3" />
+      <File FileName="Assets\UICtr.cs" Line="34" Column="26" />
       <File FileName="Assets\GOCreator.cs" Line="39" Column="3" />
       <File FileName="Assets\TNet\Examples\Scripts\ExampleCreate.cs" Line="68" Column="1" />
       <File FileName="Assets\TNet\Examples\Scripts\TouchHandler.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameCtr.cs" Line="35" Column="1" />
       <File FileName="Assets\NetMgr.cs" Line="37" Column="1" />
-      <File FileName="Assets\MapMgr.cs" Line="73" Column="38" />
-      <File FileName="Assets\MapCell.cs" Line="24" Column="57" />
-      <File FileName="Assets\TNet\Client\TNUdpLobbyClient.cs" Line="1" Column="1" />
+      <File FileName="Assets\MapMgr.cs" Line="132" Column="24" />
+      <File FileName="Assets\MapCell.cs" Line="40" Column="11" />
       <File FileName="Assets\TNet\Examples\Scripts\ExampleMenu.cs" Line="125" Column="2" />
       <File FileName="Assets\_Scripts\Models\MapTypeEnum.cs" Line="15" Column="11" />
-      <File FileName="Assets\TNet\Client\TNUnityTools.cs" Line="86" Column="3" />
+      <File FileName="Assets\TNet\Client\TNUnityTools.cs" Line="1" Column="1" />
+      <File FileName="Assets\PlayerGo.cs" Line="6" Column="1" />
+      <File FileName="Assets\TNet\Client\TNManager.cs" Line="1326" Column="1" />
+      <File FileName="Assets\_Scripts\Models\GameStateEnum.cs" Line="5" Column="10" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="F:\_MyGames\Programs\CubeNetGame\Assets\MapMgr.cs" line="141" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

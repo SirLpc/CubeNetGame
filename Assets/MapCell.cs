@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using TNet;
 
 public class MapCell : MonoBehaviour 
 {
 	private Material _mat;
 	private int _index;
+
+	private Player _player = null;
 
 	private void Awake()
 	{
@@ -26,8 +29,27 @@ public class MapCell : MonoBehaviour
 		_mat.color = c;
 	}
 
+	public void SetPlayer(Player player)
+	{
+		_player = player;
+	}
+
 	private void OnClick()
 	{
-		Debug.Log (_index + gameObject.name);
+		if (GameCtr.Instance.CurrentState != GameState.PLAYING)
+			return;
+
+		if (_player != null) {
+			Debug.Log ("Already has player at " + _index);
+			return;
+		}
+
+		var lpci = MapMgr.Instance.GetLocalPlayerCellIdx ();
+		if (Mathf.Abs (lpci - _index) != 1 && Mathf.Abs (lpci / 10 - _index / 10) != 1) {
+			Debug.Log ("The cell not close player");
+			return;
+		}
+
+		MapMgr.Instance.MovePlayerTo (this);
 	}
 }

@@ -15,6 +15,8 @@ public class GameCtr : MonoBehaviour
 	/// </summary>
 	public int ChannelID {get{ return channelID;}}
 
+	public GameState CurrentState { get; private set; }
+
 	private void Awake()
 	{
 		Instance = this;
@@ -24,8 +26,9 @@ public class GameCtr : MonoBehaviour
 	{
 		if (channelID < 1) channelID = TNManager.lastChannelID; 
 
-
 		yield return null;
+
+		SetStateTo (GameState.READY);
 
 		GOCreator.Instance.CreateMapByHost ();
 
@@ -33,11 +36,13 @@ public class GameCtr : MonoBehaviour
 
 		NetMgr.Instance.Init ();
 
-
 		UICtr.Instance.ShowReadyButton ();
 
 	}
 	
-
+	public void SetStateTo(GameState state)
+	{
+		CurrentState = state;
+	}
 
 }

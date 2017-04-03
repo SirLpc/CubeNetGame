@@ -14,8 +14,10 @@ public class MapMgr :  TNBehaviour
 	private string _playerPrefabName = "PlayerPrefabName";
 
 	private MapCell[] _mapCells;
-	private Dictionary<int,int> _playersPosDic = null;
-	private Dictionary<int,int> _mapStyleDic = null;
+	private Dictionary<int,int> _playersOnCellDic = null;
+	private Dictionary<int,int> _cellStyleDic = null;
+	private TNet.List<PlayerGo> _playerGos =null;
+
 
 	private void Awake()
 	{
@@ -27,7 +29,6 @@ public class MapMgr :  TNBehaviour
 
 	private void Start()
 	{
-
 		InitMapByHoset ();
 	}
 		
@@ -38,7 +39,7 @@ public class MapMgr :  TNBehaviour
 		Dictionary<int, int> playerPosDic = new Dictionary<int, int>();
 
 		var poses = new TNet.List<int>();
-		foreach (var m in _mapStyleDic) {
+		foreach (var m in _cellStyleDic) {
 			var style = (MapStyle)m.Value;
 			if (style == MapStyle.CANYON || style == MapStyle.HILL)
 				continue;
@@ -55,6 +56,22 @@ public class MapMgr :  TNBehaviour
 		}
 
 		tno.Send ("RFC_SyncPlayersPosInfoAndCreatePlayer", Target.All, playerPosDic.ToJsonString());
+	}
+
+	public int GetLocalPlayerCellIdx()
+	{
+		return _playersOnCellDic [TNManager.player.id];
+	}
+
+	public void AddPlayerGo(PlayerGo p)
+	{
+		_playerGos.Add (p);
+		Debug.Log ("player go count = "+ _playerGos.Count);
+	}
+
+	public void MovePlayerTo(MapCell cell)
+	{
+		
 	}
 
 	private void InitMapByHoset()
@@ -90,23 +107,29 @@ public class MapMgr :  TNBehaviour
 	{
 		Debug.Log (playersPosInfoDicStr);
 
-		UICtr.Instance.HideReadyButton ();
 
-        _playersPosDic = null;
+
+        _playersOnCellDic = null;
         //var players = playersPosInfoDicStr.Split (',');
         //for (int i = 0; i < players.Length; i++) {
         //	var pinfo = players [i].Split (':');
         //	_playersPosInfoDic.Add(int.Parse(pinfo[0]), int.Parse(pinfo[1]));
         //}
-        _playersPosDic = playersPosInfoDicStr.ToNoramDic();
+        _playersOnCellDic = playersPosInfoDicStr.ToNoramDic();
 
-		Debug.Log (_playersPosDic.Count);
+		foreach (var kvp in _playersOnCellDic)
+		{
+			_mapCells [kvp.Value].SetPlayer (TNManager.GetPlayer(kvp.Key));
+		}
+		_playerGos = new TNet.List<PlayerGo> ();
 
-		var pos = _mapCells [_playersPosDic [TNManager.player.id]].transform.position + Vector3.up;
+		var pos = _mapCells [_playersOnCellDic [TNManager.player.id]].transform.position + Vector3.up;
 
 		Color color = new Color(Random.value, Random.value, Random.value, 1f);
-
 		TNManager.Instantiate(GameCtr.Instance.ChannelID, "RCC_SpawnPlayer", _playerPrefabName, true, pos, Quaternion.identity, color);
+
+		UICtr.Instance.HideReadyButton ();
+		GameCtr.Instance.SetStateTo (GameState.PLAYING);
 	}
 
 	[RCC]
@@ -122,21 +145,23 @@ public class MapMgr :  TNBehaviour
 
 		go.GetComponentInChildren<Renderer>().material.color = color;
 
+		MapMgr.Instance.AddPlayerGo (go.GetComponent<PlayerGo> ());
+
+
 		return go;
 	}
 
 	[RFC]
 	void RFC_InitMap(string mapStr)
 	{
-		_mapStyleDic = null;
-		_mapStyleDic = mapStr.ToNoramDic ();
+		_cellStyleDic = null;
+		_cellStyleDic = mapStr.ToNoramDic ();
 
 		for (int i = 0; i < _mapCells.Length; i++) 
 		{
-			_mapCells [i].Init (i, _mapStyleDic[i]);
+			_mapCells [i].Init (i, _cellStyleDic[i]);
 		}
-
-
+		
 		UICtr.Instance.InitMapStyleColorImg ();
 	}
 }
