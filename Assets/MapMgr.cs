@@ -18,7 +18,6 @@ public class MapMgr :  TNBehaviour
 	private Dictionary<int,int> _cellStyleDic = null;
 	private TNet.List<PlayerGo> _playerGos =null;
 
-
 	private void Awake()
 	{
 		Instance = this;
@@ -31,7 +30,6 @@ public class MapMgr :  TNBehaviour
 	{
 		InitMapByHoset ();
 	}
-		
 
 	public void InitPlayers()
 	{
@@ -60,7 +58,7 @@ public class MapMgr :  TNBehaviour
 
 	public int GetLocalPlayerCellIdx()
 	{
-		return _playersOnCellDic [TNManager.player.id];
+		return _playersOnCellDic [TNManager.playerID];
 	}
 
 	public void AddPlayerGo(PlayerGo p)
@@ -71,8 +69,10 @@ public class MapMgr :  TNBehaviour
 
 	public void MovePlayerTo(MapCell cell)
 	{
-		
-	}
+        Debug.Log("move to " + cell.Index);
+
+        tno.Send("RFC_MovePlayerTo", Target.All, TNManager.playerID, GetLocalPlayerCellIdx(), cell.Index);
+    }
 
 	private void InitMapByHoset()
 	{
@@ -106,9 +106,7 @@ public class MapMgr :  TNBehaviour
 	void RFC_SyncPlayersPosInfoAndCreatePlayer(string playersPosInfoDicStr)
 	{
 		Debug.Log (playersPosInfoDicStr);
-
-
-
+        
         _playersOnCellDic = null;
         //var players = playersPosInfoDicStr.Split (',');
         //for (int i = 0; i < players.Length; i++) {
@@ -117,23 +115,23 @@ public class MapMgr :  TNBehaviour
         //}
         _playersOnCellDic = playersPosInfoDicStr.ToNoramDic();
 
-		foreach (var kvp in _playersOnCellDic)
-		{
-			_mapCells [kvp.Value].SetPlayer (TNManager.GetPlayer(kvp.Key));
-		}
+		//foreach (var kvp in _playersOnCellDic)
+		//{
+		//	_mapCells [kvp.Value].SetPlayer (TNManager.GetPlayer(kvp.Key));
+		//}
 		_playerGos = new TNet.List<PlayerGo> ();
 
-		var pos = _mapCells [_playersOnCellDic [TNManager.player.id]].transform.position + Vector3.up;
+		var pos = _mapCells [_playersOnCellDic [TNManager.player.id]].GetPlayerStandPos();
 
 		Color color = new Color(Random.value, Random.value, Random.value, 1f);
-		TNManager.Instantiate(GameCtr.Instance.ChannelID, "RCC_SpawnPlayer", _playerPrefabName, true, pos, Quaternion.identity, color);
+		TNManager.Instantiate(GameCtr.Instance.ChannelID, "RCC_SpawnPlayer", _playerPrefabName, true, pos, Quaternion.identity, color, TNManager.playerID);
 
 		UICtr.Instance.HideReadyButton ();
 		GameCtr.Instance.SetStateTo (GameState.PLAYING);
 	}
 
 	[RCC]
-	static GameObject RCC_SpawnPlayer (GameObject prefab, Vector3 pos, Quaternion rot, Color color)
+	static GameObject RCC_SpawnPlayer (GameObject prefab, Vector3 pos, Quaternion rot, Color color, int playerId)
 	{
 		// Instantiate the prefab
 		GameObject go = prefab.Instantiate();
@@ -145,10 +143,12 @@ public class MapMgr :  TNBehaviour
 
 		go.GetComponentInChildren<Renderer>().material.color = color;
 
-		MapMgr.Instance.AddPlayerGo (go.GetComponent<PlayerGo> ());
+        var pgo = go.GetComponent<PlayerGo>();
+        pgo.Init(playerId);
+        MapMgr.Instance.AddPlayerGo (pgo);
+        MapMgr.Instance._mapCells[MapMgr.Instance._playersOnCellDic[playerId]].SetPlayer(pgo);
 
-
-		return go;
+        return go;
 	}
 
 	[RFC]
@@ -164,4 +164,19 @@ public class MapMgr :  TNBehaviour
 		
 		UICtr.Instance.InitMapStyleColorImg ();
 	}
+
+    [RFC]
+    void RFC_MovePlayerTo(int playerId, int fromCellIdx, int toCellIdx)
+    {
+        foreach (var p in _playerGos)
+        {
+            if (p.PlayerId != playerId)
+                continue;
+
+            _mapCells[fromCellIdx].RemovePlayer();
+            _mapCells[toCellIdx].SetPlayer(p);
+            _playersOnCellDic[playerId] = toCellIdx;
+            p.MoveTo(_mapCells[toCellIdx]);
+        }
+    }
 }

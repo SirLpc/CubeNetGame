@@ -44,8 +44,6 @@ public class NetMgr : TNBehaviour
 			}
 		}
 
-       
-
 		MapMgr.Instance.InitPlayers ();
 	}
 }
