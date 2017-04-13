@@ -56,10 +56,6 @@ public class MapMgr :  TNBehaviour
 		tno.Send ("RFC_SyncPlayersPosInfoAndCreatePlayer", Target.All, playerPosDic.ToJsonString());
 	}
 
-	public int GetLocalPlayerCellIdx()
-	{
-		return _playersOnCellDic [TNManager.playerID];
-	}
 
 	public void AddPlayerGo(PlayerGo p)
 	{
@@ -67,11 +63,11 @@ public class MapMgr :  TNBehaviour
 		Debug.Log ("player go count = "+ _playerGos.Count);
 	}
 
-	public void MovePlayerTo(MapCell cell)
+	public void MovePlayerToCellIfCould(MapCell cell)
 	{
         Debug.Log("move to " + cell.Index);
 
-        tno.Send("RFC_MovePlayerTo", Target.All, TNManager.playerID, GetLocalPlayerCellIdx(), cell.Index);
+        tno.Send("RFC_MovePlayerToCellIfCound", Target.Host, cell.Index, TNManager.playerID);
     }
 
 	private void InitMapByHoset()
@@ -164,6 +160,22 @@ public class MapMgr :  TNBehaviour
 		
 		UICtr.Instance.InitMapStyleColorImg ();
 	}
+
+    [RFC]
+    void RFC_MovePlayerToCellIfCound(int cellIdx, int playerId)
+    {
+        var playerOnCell = _mapCells[cellIdx].GetPlayerOnCell();
+        if (playerOnCell != null)
+            return;
+
+        var lpci = MapMgr.Instance._playersOnCellDic[playerId];
+        var letfOrRight = Mathf.Abs(lpci - cellIdx) == 1;
+        var topOrBottom = Mathf.Abs(lpci / 10 - cellIdx / 10) == 1 && Mathf.Abs(lpci % 10 - cellIdx % 10) == 0;
+        if (letfOrRight || topOrBottom)
+        {
+            tno.Send("RFC_MovePlayerTo", Target.All, playerId, lpci, cellIdx);
+        }
+    }
 
     [RFC]
     void RFC_MovePlayerTo(int playerId, int fromCellIdx, int toCellIdx)

@@ -42,6 +42,11 @@ public class MapCell : MonoBehaviour
         _player = null;
     }
 
+    public PlayerGo GetPlayerOnCell()
+    {
+        return _player;
+    }
+
     public Vector3 GetPlayerStandPos()
     {
         return transform.position + Vector3.up;
@@ -55,19 +60,7 @@ public class MapCell : MonoBehaviour
         if (_style == MapStyle.CANYON || _style == MapStyle.HILL)
             return;
 
-        if (_player != null)
-            return;
-
-        var lpci = MapMgr.Instance.GetLocalPlayerCellIdx();
-        var letfOrRight = Mathf.Abs(lpci - _index) == 1;
-        var topOrBottom = Mathf.Abs(lpci / 10 - _index / 10) == 1 && Mathf.Abs(lpci % 10 - _index % 10) == 0;
-        if (letfOrRight || topOrBottom)
-        {
-            MapMgr.Instance.MovePlayerTo(this);
-            return;
-        }
-
-        Debug.Log("The cell not close player");
+        MapMgr.Instance.MovePlayerToCellIfCould(this);
     }
 
 	private void OnClick()
