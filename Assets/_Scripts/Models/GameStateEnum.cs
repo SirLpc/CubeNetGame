@@ -2,7 +2,9 @@
 {
 
 	READY,
-	PLAYING,
+
+    WAITING,
+	MOVING,
 
 
 }

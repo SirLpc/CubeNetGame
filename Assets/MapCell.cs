@@ -54,7 +54,7 @@ public class MapCell : MonoBehaviour
 
     private void MovePlayerOnClick()
     {
-        if (GameCtr.Instance.CurrentState != GameState.PLAYING)
+        if (GameCtr.Instance.CurrentState != GameState.MOVING)
             return;
 
         if (_style == MapStyle.CANYON || _style == MapStyle.HILL)

@@ -46,6 +46,8 @@ public class UICtr : MonoBehaviour
 	private void OnClickReady()
 	{
 		NetMgr.Instance.Ready ();
+
+        _readyButton.interactable = false;
 	}
 
 }

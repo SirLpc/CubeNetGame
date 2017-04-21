@@ -123,7 +123,8 @@ public class MapMgr :  TNBehaviour
 		TNManager.Instantiate(GameCtr.Instance.ChannelID, "RCC_SpawnPlayer", _playerPrefabName, true, pos, Quaternion.identity, color, TNManager.playerID);
 
 		UICtr.Instance.HideReadyButton ();
-		GameCtr.Instance.SetStateTo (GameState.PLAYING);
+
+		GameCtr.Instance.SetStateTo (GameState.WAITING);
 	}
 
 	[RCC]
