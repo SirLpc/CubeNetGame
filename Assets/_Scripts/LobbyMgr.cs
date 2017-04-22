@@ -97,7 +97,7 @@ public class LobbyMgr : TNBehaviour
     {
         //button_play.interactable = false;
 
-        Debug.Log(TNManager.player.Get<bool>("isQue"));
+        //Debug.Log(TNManager.player.Get<bool>("isQue"));
 
         TNManager.SetPlayerData("isQue", true);
 
@@ -115,7 +115,7 @@ public class LobbyMgr : TNBehaviour
         List<Player> players = new List<Player>();
 
         //client player
-        Debug.Log(TNManager.player.Get<bool>("isQue"));
+        //Debug.Log(TNManager.player.Get<bool>("isQue"));
         msg += "==in RFC==";
 
         if (TNManager.player.Get<bool>("isQue"))

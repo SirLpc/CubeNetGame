@@ -92,7 +92,12 @@ public class MapMgr :  TNBehaviour
 
 		foreach (var p in poses)
 		{
-			mapStyleDic.Add (p, Random.Range(0, System.Enum.GetNames(typeof(MapStyle)).Length));
+		    var ran = Random.Range(0, System.Enum.GetNames(typeof (MapStyle)).Length);
+            //山和峡谷不要太多
+		    if (ran == (int)MapStyle.CANYON || ran == (int)MapStyle.HILL)
+		        if (Random.Range(0, 10) > 4)
+		            ran = (int) MapStyle.PLAIN;
+            mapStyleDic.Add (p, ran);
 		}
 
 		tno.Send ("RFC_InitMap", Target.All, mapStyleDic.ToJsonString());

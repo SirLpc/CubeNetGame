@@ -38,13 +38,17 @@ public class GameCtr : MonoBehaviour
 
 		UICtr.Instance.ShowReadyButton ();
 
+        //Before waiting...
         while (CurrentState == GameState.READY)
         {
             yield return null;
         }
 
-        if (TNManager.isHosting)
+	    if (TNManager.isHosting)
+	    {
+	        yield return null;
             StartGame();
+	    }
 	}
 	
 	public void SetStateTo(GameState state)
@@ -54,6 +58,7 @@ public class GameCtr : MonoBehaviour
 
     private void StartGame()
     {
-
+        Debug.Log("start");
+        SetStateTo(GameState.MOVING);
     }
 }
