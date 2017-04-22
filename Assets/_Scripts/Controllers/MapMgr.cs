@@ -11,7 +11,7 @@ public class MapMgr :  TNBehaviour
 
 	public int MapCellCount{ get; set;}
 	[SerializeField]
-	private string _playerPrefabName = "PlayerPrefabName";
+	private string _playerPrefabName = "Player";
 
 	private MapCell[] _mapCells;
 	private Dictionary<int,int> _playersOnCellDic = null;

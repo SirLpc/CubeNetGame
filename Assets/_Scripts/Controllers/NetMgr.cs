@@ -31,6 +31,12 @@ public class NetMgr : TNBehaviour
 		tno.Send("RFC_ReadyGame", Target.Host);
 	}
 
+    public void NewTurn(int turnType)
+    {
+
+        tno.Send("RFC_NewTurn", Target.All, turnType);
+    }
+
 	[RFC]
 	void RFC_ReadyGame()
 	{
@@ -46,4 +52,11 @@ public class NetMgr : TNBehaviour
 
 		MapMgr.Instance.InitPlayers ();
 	}
+
+    [RFC]
+    private void RFC_NewTurn(int turnType)
+    {
+        TurnMgr.Instance.StartNewTurn(turnType);
+
+    }
 }

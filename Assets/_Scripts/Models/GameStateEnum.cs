@@ -5,6 +5,7 @@
 
     WAITING,
 	MOVING,
+    CALCING,
 
 
 }

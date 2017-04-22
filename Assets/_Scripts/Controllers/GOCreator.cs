@@ -14,7 +14,7 @@ using TNet;
 
 public class GOCreator : MonoBehaviour
 {
-	public string prefabName = "Created Cube";
+	public string prefabName = "MapGround";
 
 //	public int mapSizeX = 10;
 //	public int mapSizeY = 10;

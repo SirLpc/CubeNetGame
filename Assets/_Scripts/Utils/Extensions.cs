@@ -48,6 +48,17 @@ public static class Extensions
         return resDic;
     }
 
+    public static void AddOrUpdate<T,K>(this System.Collections.Generic.Dictionary<T,K> oldDic, T key, K value)
+    {
+        if(!oldDic.ContainsKey(key))
+        {
+            oldDic.Add(key, value);
+            return;
+        }
+
+        oldDic[key] = value;
+    }
+
 }
 
 

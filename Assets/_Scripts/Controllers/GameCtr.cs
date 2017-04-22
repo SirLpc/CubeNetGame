@@ -58,7 +58,12 @@ public class GameCtr : MonoBehaviour
 
     private void StartGame()
     {
-        Debug.Log("start");
-        SetStateTo(GameState.MOVING);
+        TurnMgr.Instance.StartGame();
+    }
+
+
+    private void OnGUI()
+    {
+        GUILayout.Label(string.Format("===Game state : {0}===", CurrentState));
     }
 }

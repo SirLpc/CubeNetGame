@@ -1,6 +1,6 @@
 ﻿
 
-public enum PlayEventEnum
+public enum PlayEvent
 {
     /// <summary>
     /// 宁静
