@@ -18,6 +18,9 @@ public class MapMgr :  TNBehaviour
 	private Dictionary<int,int> _cellStyleDic = null;
 	private TNet.List<PlayerGo> _playerGos =null;
 
+    public TNet.List<PlayerGo> PlayerGos { get { return _playerGos; } }
+    public MapCell[] MapCells { get { return _mapCells; } }
+
 	private void Awake()
 	{
 		Instance = this;
@@ -60,14 +63,23 @@ public class MapMgr :  TNBehaviour
 	public void AddPlayerGo(PlayerGo p)
 	{
 		_playerGos.Add (p);
-		Debug.Log ("player go count = "+ _playerGos.Count);
+		//Debug.Log ("player go count = "+ _playerGos.Count);
 	}
 
 	public void MovePlayerToCellIfCould(MapCell cell)
 	{
-        Debug.Log("move to " + cell.Index);
+        //Debug.Log("move to " + cell.Index);
 
         tno.Send("RFC_MovePlayerToCellIfCound", Target.Host, cell.Index, TNManager.playerID);
+    }
+
+    public void DispEffectOnGround(TurnModel turn)
+    {
+        var evetCells = turn.EventCellArr;
+        for (int i = 0; i < evetCells.Length; i++)
+        {
+            turn.DoEffectOnCell(_mapCells[evetCells[i]]);
+        }
     }
 
 	private void InitMapByHoset()
@@ -174,6 +186,9 @@ public class MapMgr :  TNBehaviour
         if (playerOnCell != null)
             return;
 
+        if (!TurnMgr.Instance.IsPlayerMoved(playerId))
+            return;
+
         var lpci = MapMgr.Instance._playersOnCellDic[playerId];
         var letfOrRight = Mathf.Abs(lpci - cellIdx) == 1;
         var topOrBottom = Mathf.Abs(lpci / 10 - cellIdx / 10) == 1 && Mathf.Abs(lpci % 10 - cellIdx % 10) == 0;
@@ -195,6 +210,8 @@ public class MapMgr :  TNBehaviour
             _mapCells[toCellIdx].SetPlayer(p);
             _playersOnCellDic[playerId] = toCellIdx;
             p.MoveTo(_mapCells[toCellIdx]);
+
+            TurnMgr.Instance.AddMovedPlayer(playerId);
         }
     }
 }

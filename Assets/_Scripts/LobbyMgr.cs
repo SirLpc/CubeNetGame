@@ -173,12 +173,17 @@ public class LobbyMgr : TNBehaviour
         if (success)
         {
             button_disconnect.interactable = true;
-			IsConnected = true;
+            IsConnected = true;
 
             //everyone joins main catch-all lobby channel
             TNManager.JoinChannel(1000, "lobby", true, 500, null, true);
         }
-        else Debug.Log(string.Format("network_onConnect: success={0} message={1}", success, message));
+        else
+        {
+            Debug.Log(string.Format("network_onConnect: success={0} message={1}", success, message));
+            Debug.Log("Reconnecting...");
+            button_connect_onClick();
+        }
     }
 
     private void network_onDisconnect()

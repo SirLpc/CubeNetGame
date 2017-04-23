@@ -1,26 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
 using TNet;
+using DG.Tweening;
 
-public class MapCell : MonoBehaviour 
+public class MapCell : MonoBehaviour
 {
-	private Material _mat;
-	private int _index;
+    private Material _mat;
+    private int _index;
     private MapStyle _style;
+    private Color _originColor;
 
-	private PlayerGo _player = null;
+    private PlayerGo _player = null;
+
+    private Tweener _flashTweener = null;
 
     public int Index { get { return _index; } }
 
-	private void Awake()
-	{
-		_mat = GetComponent<Renderer> ().material;
-	}
+    private void Awake()
+    {
+        _mat = GetComponent<Renderer>().material;
+    }
 
+    public void OnDestroy()
+    {
+        if (_flashTweener != null)
+            _flashTweener.Kill();
+    }
 
-	public void Init(int index, int styleEnumIdx)
-	{
-		_index = index;
+    public void Init(int index, int styleEnumIdx)
+    {
+        _index = index;
 
         //		var c =(_index / 10) % 2 == 0 ? 
         //			_index % 2 == 0 ? Color.red:Color.blue 
@@ -28,14 +37,14 @@ public class MapCell : MonoBehaviour
 
         _style = (MapStyle)styleEnumIdx;
 
-		var c = MapMgr.Instance.MapStyleColors [styleEnumIdx];
-		_mat.color = c;
-	}
+        _originColor = MapMgr.Instance.MapStyleColors[styleEnumIdx];
+        _mat.color = _originColor;
+    }
 
-	public void SetPlayer(PlayerGo player)
-	{
-		_player = player;
-	}
+    public void SetPlayer(PlayerGo player)
+    {
+        _player = player;
+    }
 
     public void RemovePlayer()
     {
@@ -52,6 +61,15 @@ public class MapCell : MonoBehaviour
         return transform.position + Vector3.up;
     }
 
+    public void FlashColor(float duration)
+    {
+        int loopCount = (int)(duration / .5f);
+        _mat.DOColor(Color.red, .5f).SetEase(Ease.Linear).SetLoops(loopCount, LoopType.Yoyo).OnComplete(()=>
+        {
+            _mat.color = _originColor;
+        });
+    }
+
     private void MovePlayerOnClick()
     {
         if (GameCtr.Instance.CurrentState != GameState.MOVING)
@@ -63,8 +81,8 @@ public class MapCell : MonoBehaviour
         MapMgr.Instance.MovePlayerToCellIfCould(this);
     }
 
-	private void OnClick()
-	{
+    private void OnClick()
+    {
         MovePlayerOnClick();
     }
 }

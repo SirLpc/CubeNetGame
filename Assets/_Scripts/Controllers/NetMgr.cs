@@ -31,10 +31,19 @@ public class NetMgr : TNBehaviour
 		tno.Send("RFC_ReadyGame", Target.Host);
 	}
 
-    public void NewTurn(int turnType)
+    public void NewTurn(int turnType, string eventCellList)
     {
+        tno.Send("RFC_NewTurn", Target.All, turnType, eventCellList);
+    }
 
-        tno.Send("RFC_NewTurn", Target.All, turnType);
+    public void SyncDamage(Dictionary<int,int> playerDmgDic)
+    {
+        if (playerDmgDic.Count < 1)
+            return;
+
+        var hd = playerDmgDic.ToJsonString();
+
+        tno.Send("RFC_SyncDamage", Target.All, hd);
     }
 
 	[RFC]
@@ -54,9 +63,21 @@ public class NetMgr : TNBehaviour
 	}
 
     [RFC]
-    private void RFC_NewTurn(int turnType)
+    private void RFC_NewTurn(int turnType, string eventCellList)
     {
-        TurnMgr.Instance.StartNewTurn(turnType);
 
+        TurnMgr.Instance.StartNewTurn(turnType, eventCellList);
+    }
+
+    [RFC]
+    private void RFC_SyncDamage(string damageDicStr)
+    {
+        var pgos = MapMgr.Instance.PlayerGos;
+        var healthDic = damageDicStr.ToNoramDic();
+        foreach (var p in pgos)
+        {
+            if (healthDic.ContainsKey(p.PlayerId))
+                p.Damage( healthDic[p.PlayerId]);
+        }
     }
 }

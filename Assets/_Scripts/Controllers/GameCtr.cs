@@ -64,6 +64,6 @@ public class GameCtr : MonoBehaviour
 
     private void OnGUI()
     {
-        GUILayout.Label(string.Format("===Game state : {0}===", CurrentState));
+        GUILayout.Label(string.Format("\t\t===Game state : {0}===", CurrentState));
     }
 }
