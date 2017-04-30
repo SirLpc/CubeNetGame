@@ -200,7 +200,7 @@ public class LobbyMgr : TNBehaviour
 		button_play_onClick ();
     }
 
-    private void network_onPlayerJoin(int channelID, Player p)
+    private void network_onPlayerJoin(int channelID, TNet.Player p)
     {
         Debug.Log(string.Format("network_onPlayerJoin: channelID={0} p.name={1}", channelID, p.name));
     }
