@@ -35,13 +35,15 @@ public class CellGrid : MonoBehaviour
     {
         get { return Players.Find(p => p.PlayerNumber.Equals(CurrentPlayerNumber)); }
     }
-    public int CurrentPlayerNumber { get; private set; }
+    public int CurrentPlayerNumber { get { return NetMgr.Instance.HexPlayerId; } }
 
     public Transform PlayersParent;
 
     public List<HexPlayer> Players { get; private set; }
     public List<Cell> Cells { get; private set; }
     public List<Unit> Units { get; private set; }
+
+    private Unit _myUnit;
 
     void Start()
     {
@@ -55,7 +57,7 @@ public class CellGrid : MonoBehaviour
                 Debug.LogError("Invalid object in Players Parent game object");
         }
         NumberOfPlayers = Players.Count;
-        CurrentPlayerNumber = Players.Min(p => p.PlayerNumber);
+        //CurrentPlayerNumber = Players.Min(p => p.PlayerNumber);
 
         Cells = new List<Cell>();
         for (int i = 0; i < transform.childCount; i++)
@@ -89,8 +91,8 @@ public class CellGrid : MonoBehaviour
         }
         else
             Debug.LogError("No IUnitGenerator script attached to cell grid");
-        
-        StartGame();
+
+        //StartGame();
     }
 
     private void OnCellDehighlighted(object sender, EventArgs e)
@@ -126,11 +128,12 @@ public class CellGrid : MonoBehaviour
     /// </summary>
     public void StartGame()
     {
+        _myUnit = Units.Find(u => u.PlayerNumber.Equals(CurrentPlayerNumber));
+
         if(GameStarted != null)
             GameStarted.Invoke(this, new EventArgs());
 
-        Units.FindAll(u => u.PlayerNumber.Equals(CurrentPlayerNumber)).ForEach(u => { u.OnTurnStart(); });
-        Players.Find(p => p.PlayerNumber.Equals(CurrentPlayerNumber)).Play(this);
+        EnablePlayerAndUnit();
     }
     /// <summary>
     /// Method makes turn transitions. It is called by player at the end of his turn.
@@ -143,18 +146,64 @@ public class CellGrid : MonoBehaviour
         }
         CellGridState = new CellGridStateTurnChanging(this);
 
-        Units.FindAll(u => u.PlayerNumber.Equals(CurrentPlayerNumber)).ForEach(u => { u.OnTurnEnd(); });
-
-        CurrentPlayerNumber = (CurrentPlayerNumber + 1) % NumberOfPlayers;
-        while (Units.FindAll(u => u.PlayerNumber.Equals(CurrentPlayerNumber)).Count == 0)
+        //Units.FindAll(u => u.PlayerNumber.Equals(CurrentPlayerNumber)).ForEach(u => { u.OnTurnEnd(); });
+        foreach (var u in Units)
         {
-            CurrentPlayerNumber = (CurrentPlayerNumber + 1)%NumberOfPlayers;
-        }//Skipping players that are defeated.
+            u.OnTurnStart();
+        }
+
+        //CurrentPlayerNumber = (CurrentPlayerNumber + 1) % NumberOfPlayers;
+        //while (Units.FindAll(u => u.PlayerNumber.Equals(CurrentPlayerNumber)).Count == 0)
+        //{
+        //    CurrentPlayerNumber = (CurrentPlayerNumber + 1)%NumberOfPlayers;
+        //}//Skipping players that are defeated.
 
         if (TurnEnded != null)
             TurnEnded.Invoke(this, new EventArgs());
 
-        Units.FindAll(u => u.PlayerNumber.Equals(CurrentPlayerNumber)).ForEach(u => { u.OnTurnStart(); });
-        Players.Find(p => p.PlayerNumber.Equals(CurrentPlayerNumber)).Play(this);     
+        EnablePlayerAndUnit();
+    }
+
+    public void EnablePlayerAndUnit()
+    {
+        //Units.FindAll(u => u.PlayerNumber.Equals(CurrentPlayerNumber)).ForEach(u => { u.OnTurnStart(); });
+
+        foreach (var u in Units)
+        {
+            u.OnTurnStart();
+        }
+
+        Players.Find(p => p.PlayerNumber.Equals(CurrentPlayerNumber)).Play(this);
+        FocusMyUnit();
+    }
+
+
+    public void MoveUnit(int unitId, int destCellId, string pathIdListStr)
+    {
+        var unit = Units.Find(u => u.Id == unitId);
+        var destCell = Cells.Find(c => c.Id == destCellId);
+        if(unit == null || destCell == null)
+        {
+            Debug.LogWarning("unit or cell == null");
+            return;
+        }
+        TNet.List<int> pathIds = pathIdListStr.ToTNetList();
+        List<Cell> pathCells = new List<Cell>();
+        for (int i = 0; i < pathIds.Count; i++)
+        {
+            var ce = Cells.Find(c => c.Id == pathIds[i]);
+            if (ce)
+                pathCells.Add(ce);
+        }
+
+        unit.Move(destCell, pathCells);
+
+        FocusMyUnit();
+    }
+
+    public void FocusMyUnit()
+    {
+        CellGridState = new CellGridStateUnitSelected(this, _myUnit);
+        OnUnitClicked(_myUnit, new EventArgs());
     }
 }

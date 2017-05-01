@@ -1,19 +1,19 @@
 ﻿using System;
 using TNet;
 using System.Text;
+using System.Collections.Generic;
 
 public static class Extensions
 {
 
 	public static TNet.List<Player> GetAllPlayers(this TNBehaviour tno)
 	{
-		List<Player> all = new List<Player> ();
+        TNet.List<Player> all = new TNet.List<Player> ();
 		all.Add (TNManager.player);
 		foreach (var item in TNManager.players) 
 		{
 			all.Add (item);
 		}
-
 		return all;
 	}
 
@@ -57,6 +57,37 @@ public static class Extensions
         }
 
         oldDic[key] = value;
+    }
+
+
+    public static  string ToJsonString<T>(this IList<T> list)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append("{");
+        foreach (var item in list)
+        {
+            sb.AppendFormat("{0},", item.ToString());
+        }
+        sb.Remove(sb.Length - 1, 1);
+        sb.Append("}");
+        return sb.ToString();
+    }
+    public static TNet.List<int> ToTNetList(this string jsonStr)
+    {
+        UnityEngine.Debug.Log(jsonStr);
+
+        var resDic = new TNet.List<int>();
+
+        jsonStr = jsonStr.Replace("{", string.Empty);
+        jsonStr = jsonStr.Replace("}", string.Empty);
+
+        var lst = jsonStr.Split(',');
+        for (int i = 0; i < lst.Length; i++)
+        {
+            resDic.Add(int.Parse(lst[i]));
+        }
+
+        return resDic;
     }
 
 }

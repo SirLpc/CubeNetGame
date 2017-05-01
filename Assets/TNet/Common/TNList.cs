@@ -4,6 +4,7 @@
 //-------------------------------------------------
 
 using System.Diagnostics;
+using System.Text;
 
 namespace TNet
 {
@@ -303,5 +304,7 @@ public class List<T> : TList
 			}
 		}
 	}
-}
+
+      
+    }
 }

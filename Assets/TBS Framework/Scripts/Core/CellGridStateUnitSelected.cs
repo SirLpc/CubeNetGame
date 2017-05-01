@@ -22,23 +22,29 @@ class CellGridStateUnitSelected : CellGridState
             return;
         if(cell.IsTaken)
         {
-            _cellGrid.CellGridState = new CellGridStateWaitingForInput(_cellGrid);
+            //_cellGrid.CellGridState = new CellGridStateWaitingForInput(_cellGrid);
+            _cellGrid.FocusMyUnit();
             return;
         }
             
         if(!_pathsInRange.Contains(cell))
         {
-            _cellGrid.CellGridState = new CellGridStateWaitingForInput(_cellGrid);
+            //_cellGrid.CellGridState = new CellGridStateWaitingForInput(_cellGrid);
+            _cellGrid.FocusMyUnit();
         }
         else
         {
             var path = _unit.FindPath(_cellGrid.Cells, cell);
-            _unit.Move(cell,path);
-            _cellGrid.CellGridState = new CellGridStateUnitSelected(_cellGrid, _unit);
+            var idPath = new List<int>(path.Count);
+            for (int i = 0; i < path.Count; i++)
+            {
+                idPath.Add(path[i].Id);
+            }
+            //_unit.Move(cell,path);
+            //_cellGrid.CellGridState = new CellGridStateUnitSelected(_cellGrid, _unit);
+            NetMgr.Instance.MoveUnitToCell(_unit.Id, cell.Id, idPath.ToJsonString());
         }
     }
-
-
 
     public override void OnUnitClicked(Unit unit)
     {

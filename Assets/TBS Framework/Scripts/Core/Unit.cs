@@ -193,7 +193,7 @@ public abstract class Unit : MonoBehaviour, IProtoId
     protected virtual void Defend(Unit other, int damage)
     {
         MarkAsDefending(other);
-        HitPoints -= Mathf.Clamp(damage - DefenceFactor, 1, damage);  //Damage is calculated by subtracting attack factor of attacker and defence factor of defender. If result is below 1, it is set to 1.
+        HitPoints -= Mathf.Clamp(damage - DefenceFactor, 0, damage);  //Damage is calculated by subtracting attack factor of attacker and defence factor of defender. If result is below 1, it is set to 1.
                                                                       //This behaviour can be overridden in derived classes.
         if (UnitAttacked != null)
             UnitAttacked.Invoke(this, new AttackEventArgs(other, this, damage));

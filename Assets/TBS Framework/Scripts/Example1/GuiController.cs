@@ -7,6 +7,7 @@ public class GuiController : MonoBehaviour
     public CellGrid CellGrid;
     public GameObject UnitsParent;
     public Button NextTurnButton;
+    public Button ReadyButton;
 
     public Image UnitImage;
     public Text InfoText;
@@ -79,6 +80,11 @@ public class GuiController : MonoBehaviour
         StatsText.text = unit.UnitName + "\nHit Points: " + unit.HitPoints +"/"+unit.TotalHitPoints + "\nAttack: " + unit.AttackFactor + "\nDefence: " + unit.DefenceFactor + "\nRange: " + unit.AttackRange;
         UnitImage.color = unit.PlayerColor;
 
+    }
+
+    public void ShowReadyButton()
+    {
+        ReadyButton.interactable = true;
     }
 
     public void RestartLevel()

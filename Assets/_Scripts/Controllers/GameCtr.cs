@@ -9,6 +9,11 @@ public class GameCtr : MonoBehaviour
 
 	public static GameCtr Instance = null;
 
+    public CellGrid _cellGrid;
+    public GuiController _guiController;
+
+    public GameObject _globalMaskGo;
+
 	/// <summary>
 	/// Channel ID is not required for TNManager.Instantiate calls, however if you are working with
 	/// multiple channels, you will want to pass which channel you want the object to be created in.
@@ -30,13 +35,14 @@ public class GameCtr : MonoBehaviour
 
 		SetStateTo (GameState.READY);
 
-		GOCreator.Instance.CreateMapByHost ();
+        //GOCreator.Instance.CreateMapByHost ();
 
 		yield return null;
 
 		NetMgr.Instance.Init ();
 
-		UICtr.Instance.ShowReadyButton ();
+		//UICtr.Instance.ShowReadyButton ();
+        _guiController.ShowReadyButton();
 
         //Before waiting...
         while (CurrentState == GameState.READY)
@@ -47,23 +53,39 @@ public class GameCtr : MonoBehaviour
 	    if (TNManager.isHosting)
 	    {
 	        yield return null;
-            StartGame();
+            NetMgr.Instance.StartGame();
 	    }
-	}
-	
-	public void SetStateTo(GameState state)
+
+        //游戏结束判定
+        while (true)
+        {
+            yield return new WaitForSeconds(2f);
+            if(TNManager.isHosting)
+            {
+                NetMgr.Instance.EndTurn();
+            }
+        }
+    }
+
+    public void OnDestroy()
+    {
+        Instance = null;
+    }
+
+    public void SetStateTo(GameState state)
 	{
 		CurrentState = state;
 	}
 
-    private void StartGame()
+    public void StartGame()
     {
-        TurnMgr.Instance.StartGame();
+        //TurnMgr.Instance.StartGame();
+        _globalMaskGo.SetActive(false);
     }
 
 
     private void OnGUI()
     {
-        GUILayout.Label(string.Format("\t\t===Game state : {0}===", CurrentState));
+        GUILayout.Label(string.Format("\t\t===Game state:{0}==isHost:{1}===", CurrentState,TNManager.isHosting));
     }
 }

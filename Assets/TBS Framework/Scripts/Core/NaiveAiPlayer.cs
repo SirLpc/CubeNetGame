@@ -108,7 +108,8 @@ public class NaiveAiPlayer : HexPlayer
                     break;
                 }
             }//Look for enemies in range and attack.
-        }    
-        _cellGrid.EndTurn();     
+        }
+        //_cellGrid.EndTurn();     
+        NetMgr.Instance.EndTurn();
     }
 }
