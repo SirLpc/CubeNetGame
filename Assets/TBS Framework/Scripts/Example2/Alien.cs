@@ -14,12 +14,12 @@ public class Alien : Unit
 
     public override bool IsCellMovableTo(Cell cell)
     {
-        return base.IsCellMovableTo(cell) && (cell as MyOtherHexagon).GroundType != GroundType.Water;
+        return base.IsCellMovableTo(cell) && (cell as MyOtherHexagon).GroundType != HexGroundType.Water;
         //Prohibits moving to cells that are marked as water.
     }
     public override bool IsCellTraversable(Cell cell)
     {
-        return base.IsCellTraversable(cell) && (cell as MyOtherHexagon).GroundType != GroundType.Water;
+        return base.IsCellTraversable(cell) && (cell as MyOtherHexagon).GroundType != HexGroundType.Water;
         //Prohibits moving through cells that are marked as water.
     }
 

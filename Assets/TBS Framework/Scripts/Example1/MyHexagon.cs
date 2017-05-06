@@ -2,6 +2,8 @@
 
 class MyHexagon : Hexagon
 {
+    public GroundType GroundType;
+
     public void Start()
     {
         SetColor(Color.white);
@@ -68,6 +70,7 @@ class MyHexagon : Hexagon
         }
     }
 
-    
+ 
+
 }
 

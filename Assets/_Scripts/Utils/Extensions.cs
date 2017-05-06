@@ -74,7 +74,7 @@ public static class Extensions
     }
     public static TNet.List<int> ToTNetList(this string jsonStr)
     {
-        UnityEngine.Debug.Log(jsonStr);
+        //UnityEngine.Debug.Log(jsonStr);
 
         var resDic = new TNet.List<int>();
 

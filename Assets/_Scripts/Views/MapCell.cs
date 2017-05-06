@@ -7,7 +7,7 @@ public class MapCell : MonoBehaviour
 {
     private Material _mat;
     private int _index;
-    private MapStyle _style;
+    private GroundType _style;
     private Color _originColor;
 
     private PlayerGo _player = null;
@@ -35,7 +35,7 @@ public class MapCell : MonoBehaviour
         //			_index % 2 == 0 ? Color.red:Color.blue 
         //			: _index % 2 == 0 ? Color.blue:Color.red;
 
-        _style = (MapStyle)styleEnumIdx;
+        _style = (GroundType)styleEnumIdx;
 
         _originColor = MapMgr.Instance.MapStyleColors[styleEnumIdx];
         _mat.color = _originColor;
@@ -75,7 +75,7 @@ public class MapCell : MonoBehaviour
         if (GameCtr.Instance.CurrentState != GameState.MOVING)
             return;
 
-        if (_style == MapStyle.CANYON || _style == MapStyle.HILL)
+        if (_style == GroundType.CANYON || _style == GroundType.HILL)
             return;
 
         MapMgr.Instance.MovePlayerToCellIfCould(this);

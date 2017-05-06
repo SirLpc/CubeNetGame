@@ -3,7 +3,7 @@
 /// <summary>
 /// 地形枚举
 /// </summary>
-public enum MapStyle
+public enum GroundType
 {
 	/// <summary>
 	/// 平原

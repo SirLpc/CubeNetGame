@@ -33,8 +33,11 @@ public class Hero : MyUnit
         _specialAbilityButton.gameObject.SetActive(false);
     }
 
+    //TODO use special ability??
     private void EnableSpecialAbilityButton() 
     {
+        return;
+
         _specialAbilityButton.gameObject.SetActive(true);
         _specialAbilityButton.interactable = true;
     }

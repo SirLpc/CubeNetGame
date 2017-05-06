@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MyOtherHexagon : Hexagon
 {
-    public GroundType GroundType;
+    public HexGroundType GroundType;
     public bool IsSkyTaken;//Indicates if a flying unit is occupying the cell.
 
     public void Start()
@@ -50,9 +50,11 @@ public class MyOtherHexagon : Hexagon
         var ret = GetComponent<SpriteRenderer>().bounds.size;
         return ret*0.98f;
     }
+
+
 }
 
-public enum GroundType
+public enum HexGroundType
 {
     Land,
     Water

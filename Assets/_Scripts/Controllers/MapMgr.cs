@@ -41,8 +41,8 @@ public class MapMgr :  TNBehaviour
 
 		var poses = new TNet.List<int>();
 		foreach (var m in _cellStyleDic) {
-			var style = (MapStyle)m.Value;
-			if (style == MapStyle.CANYON || style == MapStyle.HILL)
+			var style = (GroundType)m.Value;
+			if (style == GroundType.CANYON || style == GroundType.HILL)
 				continue;
 
 			poses.Add (m.Key);
@@ -98,17 +98,17 @@ public class MapMgr :  TNBehaviour
 		for(int i = 0 ; i < aps.Count; i++)
 		{
 			var posIdx = Random.Range (0, poses.Count);
-			mapStyleDic.Add (posIdx, (int)MapStyle.PLAIN);
+			mapStyleDic.Add (posIdx, (int)GroundType.PLAIN);
 			poses.Remove (posIdx);
 		}
 
 		foreach (var p in poses)
 		{
-		    var ran = Random.Range(0, System.Enum.GetNames(typeof (MapStyle)).Length);
+		    var ran = Random.Range(0, System.Enum.GetNames(typeof (GroundType)).Length);
             //山和峡谷不要太多
-		    if (ran == (int)MapStyle.CANYON || ran == (int)MapStyle.HILL)
+		    if (ran == (int)GroundType.CANYON || ran == (int)GroundType.HILL)
 		        if (Random.Range(0, 10) > 4)
-		            ran = (int) MapStyle.PLAIN;
+		            ran = (int) GroundType.PLAIN;
             mapStyleDic.Add (p, ran);
 		}
 
