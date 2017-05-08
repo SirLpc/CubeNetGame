@@ -22,6 +22,8 @@ public class GameCtr : MonoBehaviour
 
 	public GameState CurrentState { get; private set; }
 
+    public CellGrid CellGrid { get { return _cellGrid; } }
+
 	private void Awake()
 	{
 		Instance = this;
@@ -62,7 +64,7 @@ public class GameCtr : MonoBehaviour
             yield return new WaitForSeconds(2f);
             if(TNManager.isHosting)
             {
-                NetMgr.Instance.EndTurn();
+                HexTurnMgr.Instance.NewTurnByHost();
             }
         }
     }

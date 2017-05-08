@@ -79,14 +79,24 @@ public class NetMgr : TNBehaviour
         tno.Send("RFC_MoveUnitToCell_HostCheck", Target.Host, unitId, destCellId, pathIdListStr);
     }
 
+    public void StartGame()
+    {
+        tno.Send("RFC_StartGame", Target.All);
+    }
+
     public void EndTurn()
     {
         tno.Send("RFC_EndTurn", Target.All);
     }
 
-    public void StartGame()
+    public void CalcHealth()
     {
-        tno.Send("RFC_StartGame", Target.All);
+        Dictionary<int, int> healthDic = new Dictionary<int, int>();
+        foreach (var u in _cellGrid.Units)
+        {
+            
+        }
+        tno.Send("RFC_CalcHealth", Target.All);
     }
 
     [RFC]
@@ -111,7 +121,7 @@ public class NetMgr : TNBehaviour
     private void RFC_NewTurn(int turnType, string eventCellList)
     {
 
-        TurnMgr.Instance.StartNewTurn(turnType, eventCellList);
+        HexTurnMgr.Instance.StartNewTurn(turnType, eventCellList);
     }
 
     [RFC]
@@ -143,11 +153,6 @@ public class NetMgr : TNBehaviour
         _cellGrid.MoveUnit(unitId, destCellId, pathIdListStr);
     }
 
-    [RFC]
-    void RFC_EndTurn()
-    {
-        _cellGrid.EndTurn();
-    }
 
     [RFC]
     void RFC_StartGame()
@@ -156,6 +161,16 @@ public class NetMgr : TNBehaviour
         GameCtr.Instance.StartGame();
     }
 
+    [RFC]
+    void RFC_EndTurn()
+    {
+        _cellGrid.EndTurn();
+    }
 
+    [RFC]
+    void RFC_CalcHealth()
+    {
+        //_cellGrid.CalcHealth();
+    }
 
 }
