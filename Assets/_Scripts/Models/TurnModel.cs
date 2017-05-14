@@ -12,8 +12,8 @@ public class TurnModel
         {
             case PlayEvent.PIECE:
                 return new PieceTurn();
-            //case PlayEvent.HOT:
-            //    break;
+            case PlayEvent.HOT:
+                return new HotTurn();
             //case PlayEvent.COLD:
             //    break;
             //case PlayEvent.BEAST:
@@ -79,6 +79,7 @@ public class TurnModel
 
     public virtual void DoEffectOnCell(MapCell cell) { }
     public virtual int GetDamageNum() { return 0; }
+    public List<GroundType> WillDamageGroundType { get; protected set; }
 }
 
 public class PieceTurn : TurnModel
@@ -89,6 +90,25 @@ public class PieceTurn : TurnModel
 
         Range = 0;
     }
+}
+
+public class HotTurn : TurnModel
+{
+    public HotTurn()
+    {
+        Event = PlayEvent.HOT;
+
+        WillDamageGroundType = new List<GroundType>();
+        WillDamageGroundType.Add(GroundType.PLAIN);
+    }
+
+    public override int GetDamageNum()
+    {
+        Random ran = new Random();
+        return ran.Next(20, 27);
+    }
+
+
 }
 
 public class StarveTurn : TurnModel

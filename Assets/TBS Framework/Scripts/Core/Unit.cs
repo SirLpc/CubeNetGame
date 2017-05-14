@@ -188,6 +188,25 @@ public abstract class Unit : MonoBehaviour, IProtoId
         }  
     }
     /// <summary>
+    /// Method deals damage to nature event.
+    /// </summary>
+    public virtual void DealDamageNature(int damage, PlayEvent evnt)
+    {
+        Debug.Log(Id + "damaged" + damage);
+        //MarkAsDefending(other);
+        HitPoints -= Mathf.Clamp(damage - DefenceFactor, 0, damage);  //Damage is calculated by subtracting attack factor of attacker and defence factor of defender. If result is below 1, it is set to 1.
+       
+        if (HitPoints <= 0)
+        {
+            //if (UnitDestroyed != null)
+            //    UnitDestroyed.Invoke(this, new AttackEventArgs(null, this, damage));
+
+            //GameCtr.Instance.CellGrid.Units.Remove(this);
+
+            OnDestroyed();
+        }
+    }
+    /// <summary>
     /// Attacking unit calls Defend method on defending unit. 
     /// </summary>
     protected virtual void Defend(Unit other, int damage)
@@ -205,6 +224,8 @@ public abstract class Unit : MonoBehaviour, IProtoId
             OnDestroyed();
         }
     }
+
+
 
     public virtual void Move(Cell destinationCell, List<Cell> path)
     {

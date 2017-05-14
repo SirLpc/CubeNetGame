@@ -23,6 +23,9 @@ public class Hero : MyUnit
     }
     public override void OnUnitSelected()
     {
+        if (!gameObject)
+            return;
+
         if (!_abilityUsed)
         {
             Invoke("EnableSpecialAbilityButton",0.1f);

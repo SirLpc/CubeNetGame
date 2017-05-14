@@ -140,10 +140,21 @@ public class CellGrid : MonoBehaviour
     /// </summary>
     public void EndTurn()
     {
+        for (int i = 0; i < Units.Count; i++)
+        {
+            var u = Units[i];
+            if (u.HitPoints <= 0)
+            {
+                Units.Remove(u);
+                i--;
+            }
+        }
+
         if (Units.Select(u => u.PlayerNumber).Distinct().Count() == 1)
         {
             return;
         }
+
         CellGridState = new CellGridStateTurnChanging(this);
 
         //Units.FindAll(u => u.PlayerNumber.Equals(CurrentPlayerNumber)).ForEach(u => { u.OnTurnEnd(); });
@@ -207,5 +218,25 @@ public class CellGrid : MonoBehaviour
         OnUnitClicked(_myUnit, new EventArgs());
     }
 
-   
+    public bool IsGameEnded()
+    {
+        for (int i = 0; i < Units.Count; i++)
+        {
+            var u = Units[i];
+            if (u.HitPoints <= 0)
+            {
+                Units.Remove(u);
+                i--;
+            }
+        }
+        var totalPlayersAlive = Units.Select(u => u.PlayerNumber).Distinct().ToList(); //Checking if the game is over
+        var gameEnded = totalPlayersAlive.Count == 1;
+        return gameEnded;
+    }
+
+    public void EndGame()
+    {
+        if (GameEnded != null)
+            GameEnded.Invoke(this, new EventArgs());
+    }
 }

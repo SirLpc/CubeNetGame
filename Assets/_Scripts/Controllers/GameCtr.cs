@@ -59,13 +59,28 @@ public class GameCtr : MonoBehaviour
 	    }
 
         //游戏结束判定
-        while (true)
+        while (!CellGrid.IsGameEnded())
         {
-            yield return new WaitForSeconds(2f);
+            //每回合间隔2秒,然后开始结算
             if(TNManager.isHosting)
             {
-                HexTurnMgr.Instance.NewTurnByHost();
+                yield return new WaitForSeconds(2f);
+                HexTurnMgr.Instance.DoCalcByHost();
+                Debug.Log("calc health");
             }
+            //结算时间0.75s后开始新的回合
+            if (TNManager.isHosting)
+            {
+                yield return new WaitForSeconds(.75f);
+                HexTurnMgr.Instance.NewTurnByHost();
+                Debug.Log("new turn");
+            }
+        }
+
+        if (TNManager.isHosting)
+        {
+            NetMgr.Instance.EndGame();
+            Debug.Log("enddd game!!");
         }
     }
 
@@ -89,5 +104,20 @@ public class GameCtr : MonoBehaviour
     private void OnGUI()
     {
         GUILayout.Label(string.Format("\t\t===Game state:{0}==isHost:{1}===", CurrentState,TNManager.isHosting));
+
+        GUI.color = Color.red;
+
+        if (CellGrid.Units == null)
+            return;
+
+        var HpInfoStr = "\n\t\t";
+        foreach (var item in CellGrid.Units)
+        {
+            HpInfoStr += string.Format("[ID:{0}{2},HP:{1}] ", item.PlayerNumber,
+                item.TotalHitPoints > 0 ? item.TotalHitPoints.ToString() : "Dead",
+                item.PlayerNumber == CellGrid.CurrentPlayerNumber ? "Me" : "");
+        }
+        GUILayout.Label(HpInfoStr);
     }
+
 }

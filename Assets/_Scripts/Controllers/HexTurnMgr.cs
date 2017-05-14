@@ -18,13 +18,11 @@ public class HexTurnMgr :MonoBehaviour
     {
         if (_turnHistory.Count > 0)
         {
-            if (Random.Range(0, 2) == 0)
-            {
-                NetMgr.Instance.NewTurn((int)(PlayEvent.HOT), CalcEventCell());
-
-            }
-            else
-                NetMgr.Instance.NewTurn((int)(PlayEvent.PIECE), string.Empty);
+            NetMgr.Instance.NewTurn((int)(PlayEvent.HOT), CalcEventCell());
+            //if (Random.Range(0, 1) == 0)
+            //    NetMgr.Instance.NewTurn((int)(PlayEvent.HOT), CalcEventCell());
+            //else
+            //    NetMgr.Instance.NewTurn((int)(PlayEvent.PIECE), string.Empty);
         }
         else
         {
@@ -32,53 +30,53 @@ public class HexTurnMgr :MonoBehaviour
         }
     }
 
-    public void IvDoCalcByHost()
+    public void DoCalcByHost()
     {
-        if (_currentTurn.Event == PlayEvent.PIECE)
-        {
-            Invoke("NewTurnByHost", _currentTurn.CalcDuration);
+        if (_currentTurn == null)
             return;
-        }
+        if (_currentTurn.Event == PlayEvent.PIECE)
+            return;
 
-        var cells = MapMgr.Instance.MapCells;
-        var willDmgPlayers = new TNet.List<int>();
-        for (int i = 0; i < _currentTurn.EventCellArr.Length; i++)
+        var units = GameCtr.Instance.CellGrid.Units;
+        var willDmgPlayers = new System.Collections.Generic.List<DTO_SyncDamageByEvent>();
+        for (int i = 0; i < units.Count; i++)
         {
-            var p = cells[_currentTurn.EventCellArr[i]].GetPlayerOnCell();
-            if (p != null)
+            var t = (units[i].Cell as MyHexagon).GroundType;
+            if (_currentTurn.WillDamageGroundType.Contains(t))
             {
-                willDmgPlayers.Add(p.PlayerId);
+                DTO_SyncDamageByEvent dto = new DTO_SyncDamageByEvent(
+                    units[i].Id, _currentTurn.Event, _currentTurn.GetDamageNum());
+                willDmgPlayers.Add(dto);
             }
         }
-        Dictionary<int, int> dmgDic = new Dictionary<int, int>();
-        foreach (var pid in willDmgPlayers)
-        {
-            dmgDic.Add(pid, _currentTurn.GetDamageNum());
-        }
-        NetMgr.Instance.SyncDamage(dmgDic);
+        if (willDmgPlayers.Count <= 0)
+            return;
+   
+        NetMgr.Instance.SyncDamage(willDmgPlayers);
     }
 
     public void StartNewTurn(int turnType, string eventCellArrStr)
     {
-        InitTurnModel(turnType, eventCellArrStr);
+        _currentTurn = InitTurnModel(turnType, eventCellArrStr);
         _turnHistory.Add(_currentTurn);
-
         //MapMgr.Instance.DispEffectOnGround(_currentTurn);
 
-        NetMgr.Instance.EndTurn();
+        GameCtr.Instance.CellGrid.EndTurn();
+        //NetMgr.Instance.EndTurn();
     }
 
    
 
-    private void InitTurnModel(int turnType, string eventCellArrStr)
+    private TurnModel InitTurnModel(int turnType, string eventCellArrStr)
     {
-        _currentTurn = TurnModel.GetTurn((PlayEvent)turnType);
-        _currentTurn.Index = _turnHistory.Count;
-        int[] eca = new int[_currentTurn.Range];
+        var t = TurnModel.GetTurn((PlayEvent)turnType);
+        t.Index = _turnHistory.Count;
+        int[] eca = new int[t.Range];
         var cs = eventCellArrStr.Split(',');
         for (int i = 0; i < eca.Length; i++)
             eca[i] = int.Parse(cs[i]);
-        _currentTurn.EventCellArr = eca;
+        t.EventCellArr = eca;
+        return t;
     }
 
    

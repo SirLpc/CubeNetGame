@@ -57,12 +57,12 @@ public class NetMgr : TNBehaviour
         tno.Send("RFC_NewTurn", Target.All, turnType, eventCellList);
     }
 
-    public void SyncDamage(Dictionary<int, int> playerDmgDic)
+    public void SyncDamage(System.Collections.Generic.List<DTO_SyncDamageByEvent> playerDmgDic)
     {
         if (playerDmgDic.Count < 1)
             return;
 
-        var hd = playerDmgDic.ToJsonString();
+        var hd = thelab.core.Serialize.ToJson(playerDmgDic);
 
         tno.Send("RFC_SyncDamage", Target.All, hd);
     }
@@ -84,20 +84,11 @@ public class NetMgr : TNBehaviour
         tno.Send("RFC_StartGame", Target.All);
     }
 
-    public void EndTurn()
+    public void EndGame()
     {
-        tno.Send("RFC_EndTurn", Target.All);
+        tno.Send("RFC_EndGame", Target.All);
     }
 
-    public void CalcHealth()
-    {
-        Dictionary<int, int> healthDic = new Dictionary<int, int>();
-        foreach (var u in _cellGrid.Units)
-        {
-            
-        }
-        tno.Send("RFC_CalcHealth", Target.All);
-    }
 
     [RFC]
     void RFC_ReadyGame()
@@ -120,19 +111,23 @@ public class NetMgr : TNBehaviour
     [RFC]
     private void RFC_NewTurn(int turnType, string eventCellList)
     {
-
         HexTurnMgr.Instance.StartNewTurn(turnType, eventCellList);
     }
 
     [RFC]
     private void RFC_SyncDamage(string damageDicStr)
     {
-        var pgos = MapMgr.Instance.PlayerGos;
-        var healthDic = damageDicStr.ToNoramDic();
-        foreach (var p in pgos)
+        var units = GameCtr.Instance.CellGrid.Units;
+        var healthDic = thelab.core.Serialize.FromJson<System.Collections.Generic.List<DTO_SyncDamageByEvent>>(damageDicStr);
+
+        for (int i = 0; i < units.Count; i++)
         {
-            if (healthDic.ContainsKey(p.PlayerId))
-                p.Damage(healthDic[p.PlayerId]);
+            var p = units[i];
+            if (p.HitPoints <= 0)
+                return;
+            var dto = healthDic.Find(d => d.UnitId == p.Id);
+            if (dto != null)
+                p.DealDamageNature(dto.DamageHealth, dto.Evnt);
         }
     }
 
@@ -162,15 +157,11 @@ public class NetMgr : TNBehaviour
     }
 
     [RFC]
-    void RFC_EndTurn()
+    void RFC_EndGame()
     {
-        _cellGrid.EndTurn();
+        _cellGrid.EndGame();
     }
 
-    [RFC]
-    void RFC_CalcHealth()
-    {
-        //_cellGrid.CalcHealth();
-    }
+
 
 }

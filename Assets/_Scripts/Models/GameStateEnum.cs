@@ -7,5 +7,5 @@
 	MOVING,
     CALCING,
 
-
+    END,
 }

@@ -126,6 +126,9 @@ class CellGridStateUnitSelected : CellGridState
     }
     public override void OnStateExit()
     {
+        if (_unit == null)
+            return;
+
         _unit.OnUnitDeselected();
         foreach (var unit in _unitsInRange)
         {

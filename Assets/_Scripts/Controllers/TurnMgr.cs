@@ -120,7 +120,7 @@ public class TurnMgr : MonoBehaviour
         {
             dmgDic.Add(pid, _currentTurn.GetDamageNum());
         }
-        NetMgr.Instance.SyncDamage(dmgDic);
+        //NetMgr.Instance.SyncDamage(dmgDic);
 
         Invoke("NewTurnByHost", _currentTurn.CalcDuration);
     }

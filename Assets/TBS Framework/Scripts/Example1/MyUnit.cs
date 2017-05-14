@@ -32,6 +32,12 @@ public class MyUnit : Unit
         UpdateHpBar();
     }
 
+    public override void DealDamageNature(int damage, PlayEvent evnt)
+    {
+        base.DealDamageNature(damage, evnt);
+        UpdateHpBar();
+    }
+
     public override void Move(Cell destinationCell, List<Cell> path)
     {
         base.Move(destinationCell, path);
